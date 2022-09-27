@@ -6,15 +6,19 @@
 ### Introduction
 This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Operations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' on a public available dataset which was not included in the original MIDL paper. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
 
-[//]: # (### Hyper-parameters)
+### Hyper-Parameters
+| LR   | Batch | Seed | Width | Consistency | Labels | Steps | 
+|------|-------|------|-------|-------------|--------|-------|
+| 0.01 | 4     | 1337 | 8     |       1     |      2 |  5000 |
 
-[//]: # (We tested the following hyper-parameters:)
 
-[//]: # ()
-[//]: # (### Results)
+### Results
+| Models (5000 steps) | Dice (⬆) | Jaccard (⬆) | Hausdorff Dist. (⬇) | Average Surface Dist. (⬇) |
+|:-------------------:|----------|-------------|---------------------|---------------------------|
+|        UA-MT        | 0.73     | 0.58        | 32                  | 10                        | 
+|   MisMatch (Ours)   | 0.70     | 0.55        | 37                  | 12                        | 
 
-[//]: # ()
-[//]: # ()
+
 [//]: # (### Methods)
 
 [//]: # ()
@@ -22,80 +26,74 @@ This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morp
 [//]: # (### Calibration and Consistency Driven Semi-Supervised Learning)
 
 
+### Installation and Usage
 
-[//]: # (### Installation and Usage)
+This repository is based on PyTorch 1.4. To use this code, please first clone the repo and install the anaconda environments via:
 
-[//]: # (This repository is based on PyTorch 1.4. To use this code, please first clone the repo and install the anaconda environments via:)
+   ```shell
 
-[//]: # (   ```shell)
+   git clone https://github.com/moucheng2017/Morphological_Feature_Perturbation_SSL
 
-[//]: # (   git clone https://github.com/moucheng2017/Morphological_Feature_Perturbation_SSL)
+   cd MisMatchSSL
 
-[//]: # (   cd MisMatch)
+   conda env create -f midl.yml
 
-[//]: # (   conda env create -f midl.yml)
+   ```
 
-[//]: # (   ```)
+To train the baseline, use:
 
-[//]: # (To train the baseline, use:)
+   ```shell
 
-[//]: # (   ```shell)
+   cd MisMatchSSL/code
 
-[//]: # (   cd code)
+   python train_LA_meanteacher_certainty_unlabel.py --gpu 0 --batch_size 4 --seed 1337 --width 8 --consistency 1.0 --labels 2 --steps 5000
 
-[//]: # (   python train_LA_meanteacher_certainty_unlabel.py --gpu 0)
+   ```
 
-[//]: # (   ```)
 
-[//]: # ()
-[//]: # (To train our proposed model MisMatch, use:)
+To train our proposed model MisMatch, use:
 
-[//]: # (   ```shell)
+   ```shell
 
-[//]: # (   cd code)
+   cd MisMatchSSL/code
 
-[//]: # (   python train_LA_meanteacher_certainty_unlabel.py --gpu 0)
+   python train_LA_meanteacher_certainty_unlabel.py --gpu 0 --batch_size 4 --seed 1337 --width 8 --consistency 1.0 --labels 2 --steps 5000
 
-[//]: # (   ```)
+   ```
 
-[//]: # (### Citation)
+### Citation
 
-[//]: # ()
-[//]: # (If you find our paper or code useful for your research, please consider citing:)
+If you find our paper or code useful for your research, please consider citing:
 
-[//]: # ()
-[//]: # (    @inproceedings{xu2022midl,)
+    @inproceedings{xu2022midl,
 
-[//]: # (         title={Learning Morphological Operations in Calibrated Semi-Supervised Segmentation},)
+         title={Learning Morphological Operations in Calibrated Semi-Supervised Segmentation},
 
-[//]: # (         author={Xu, Moucheng and Zhou, Yukun and},)
+         author={Xu, Moucheng and Zhou, Yukun and Jin, Chen and deGroot, Marius and Wilson Frederick J. and Blumberg, Stefano B. and Alexander, Daniel C. and Oxtoby, Neil P. and Jacob, Joseph},
 
-[//]: # (         booktitle = {MIDL},)
+         booktitle = {MIDL},
 
-[//]: # (         year = {2022} })
+         year = {2022} }
 
-[//]: # ()
-[//]: # (If you use the LA segmentation data, please also consider citing:)
 
-[//]: # ()
-[//]: # (      @article{xiong2020global,)
+If you use the LA segmentation data, please also consider citing:
 
-[//]: # (         title={A Global Benchmark of Algorithms for Segmenting Late Gadolinium-Enhanced Cardiac Magnetic Resonance Imaging},)
+      @article{xiong2020global,
 
-[//]: # (         author={Xiong, Zhaohan and Xia, Qing and Hu, Zhiqiang and Huang, Ning and Vesal, Sulaiman and Ravikumar, Nishant and Maier, Andreas and Li, Caizi and Tong,          Qianqian and Si, Weixin and others},)
+         title={A Global Benchmark of Algorithms for Segmenting Late Gadolinium-Enhanced Cardiac Magnetic Resonance Imaging},
 
-[//]: # (         journal={Medical Image Analysis},)
+         author={Xiong, Zhaohan and Xia, Qing and Hu, Zhiqiang and Huang, Ning and Vesal, Sulaiman and Ravikumar, Nishant and Maier, Andreas and Li, Caizi and Tong, Qianqian and Si, Weixin and others},
 
-[//]: # (         year={2020} })
+         journal={Medical Image Analysis},
+
+         year={2020} }
 
 ### Note for data
 The left atrium dataset We provided the processed h5 data in the `data` folder. You can refer the code in `code/dataloaders/la_heart_processing.py` to process your own data.
 
 
 ### Questions
-Please contact 'xumoucheng28@gmail.com' or 'rmapmxu@ucl.ac.uk'
+Please contact 'xumoucheng28@gmail.com'
 
 
-[//]: # (### Ackwnoledgement)
-
-[//]: # (Our code uses the infrascture and the data from this repo:. We thank the developers of the community who contributed to the referred repo.)
+### Ackwnoledgement
