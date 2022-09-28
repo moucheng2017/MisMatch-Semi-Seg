@@ -19,11 +19,7 @@ This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morp
 |   MisMatch (Ours)   | 0.70     | 0.55        | 37                  | 12                        | 
 
 
-[//]: # (### Methods)
-
-[//]: # ()
-[//]: # ()
-[//]: # (### Calibration and Consistency Driven Semi-Supervised Learning)
+![Results on LA-Heart with different metrics.](pics/la_heart.png "Plot.")
 
 
 ### Installation and Usage
@@ -71,7 +67,7 @@ If you find our paper or code useful for your research, please consider citing:
 
          author={Xu, Moucheng and Zhou, Yukun and Jin, Chen and deGroot, Marius and Wilson Frederick J. and Blumberg, Stefano B. and Alexander, Daniel C. and Oxtoby, Neil P. and Jacob, Joseph},
 
-         booktitle = {MIDL},
+         booktitle = {International Conference on Medical Imaging with Deep Learning (MIDL)},
 
          year = {2022} }
 
@@ -97,3 +93,4 @@ Please contact 'xumoucheng28@gmail.com'
 
 
 ### Ackwnoledgement
+Massive thanks to my amazing colleagues at UCL and GSK including Yukun Zhou, Jin Chen, Marius de Groot, Fred Wilson, Neil Oxtoby, Danny Alexander and Joe Jacob.
