@@ -38,7 +38,7 @@ def test_calculate_metric(epoch_num):
 
     avg_metric = test_all_case(net, image_list, num_classes=num_classes,
                                patch_size=(112, 112, 80), stride_xy=18, stride_z=4,
-                               save_result=True, test_save_path=test_save_path)
+                               save_result=True, test_save_path=test_save_path, network_flag=0)
 
     return avg_metric
 

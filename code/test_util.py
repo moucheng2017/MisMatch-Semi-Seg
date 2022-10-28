@@ -8,7 +8,7 @@ import torch.nn.functional as F
 from tqdm import tqdm
 
 
-def test_all_case(net, image_list, num_classes, patch_size=(112, 112, 80), stride_xy=18, stride_z=4, save_result=True, test_save_path=None, preproc_fn=None):
+def test_all_case(net, image_list, num_classes, patch_size=(112, 112, 80), stride_xy=18, stride_z=4, save_result=True, test_save_path=None, preproc_fn=None, network_flag=0):
     total_metric = 0.0
     for image_path in tqdm(image_list):
         id = image_path.split('/')[-1]
@@ -17,7 +17,7 @@ def test_all_case(net, image_list, num_classes, patch_size=(112, 112, 80), strid
         label = h5f['label'][:]
         if preproc_fn is not None:
             image = preproc_fn(image)
-        prediction, score_map = test_single_case(net, image, stride_xy, stride_z, patch_size, num_classes=num_classes)
+        prediction, score_map = test_single_case(net, image, stride_xy, stride_z, patch_size, num_classes=num_classes, network_flag=network_flag)
 
         if np.sum(prediction)==0:
             single_metric = (0,0,0,0)
@@ -35,7 +35,7 @@ def test_all_case(net, image_list, num_classes, patch_size=(112, 112, 80), strid
     return avg_metric
 
 
-def test_single_case(net, image, stride_xy, stride_z, patch_size, num_classes=1):
+def test_single_case(net, image, stride_xy, stride_z, patch_size, num_classes=1, network_flag=0):
     w, h, d = image.shape
 
     # if the size of image is less than patch_size, then padding it
@@ -78,8 +78,14 @@ def test_single_case(net, image, stride_xy, stride_z, patch_size, num_classes=1)
                 test_patch = image[xs:xs+patch_size[0], ys:ys+patch_size[1], zs:zs+patch_size[2]]
                 test_patch = np.expand_dims(np.expand_dims(test_patch,axis=0),axis=0).astype(np.float32)
                 test_patch = torch.from_numpy(test_patch).cuda()
-                y1 = net(test_patch)
-                y = F.softmax(y1, dim=1)
+                if network_flag == 0:
+                    y = net(test_patch)
+                    y = F.softmax(y, dim=1)
+                elif network_flag == 1:
+                    y1, y2 = net(test_patch)
+                    y1 = F.softmax(y1, dim=1)
+                    y2 = F.softmax(y2, dim=1)
+                    y = (y1 + y2) / 2
                 y = y.cpu().data.numpy()
                 y = y[0,:,:,:,:]
                 score_map[:, xs:xs+patch_size[0], ys:ys+patch_size[1], zs:zs+patch_size[2]] \

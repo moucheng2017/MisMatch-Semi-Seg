@@ -2,7 +2,7 @@ import os
 import argparse
 import torch
 from networks.vnet_mismatch import VNetMisMatch
-from test_util_mismatch import test_all_case
+from test_util import test_all_case
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--root_path', type=str, default='../data/2018LA_Seg_Training Set/', help='Name of Experiment')
@@ -40,7 +40,7 @@ def test_calculate_metric(epoch_num):
 
     avg_metric = test_all_case(net, image_list, num_classes=num_classes,
                                patch_size=(112, 112, 80), stride_xy=18, stride_z=4,
-                               save_result=True, test_save_path=test_save_path)
+                               save_result=True, test_save_path=test_save_path, network_flag=1)
 
     return avg_metric
 
