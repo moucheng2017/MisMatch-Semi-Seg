@@ -63,7 +63,7 @@ If you find our paper or code useful for your research, please consider citing:
 
     @inproceedings{xu2022midl,
 
-         title={Learning Morphological Operations in Calibrated Semi-Supervised Segmentation},
+         title={Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation},
 
          author={Xu, Moucheng and Zhou, Yukun and Jin, Chen and deGroot, Marius and Wilson Frederick J. and Blumberg, Stefano B. and Alexander, Daniel C. and Oxtoby, Neil P. and Jacob, Joseph},
 
