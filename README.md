@@ -1,5 +1,5 @@
 ### News
-[2022 Sep 15th] For easier maintenance (also as requested by the reviewers of the journal version of our paper), we release a new version of our implementation based on the data and the code from a previous paper called UA-MT: https://github.com/yulequan/UA-MT
+[2022 Sep 15th] For easier maintenance (also as requested by the reviewers of the journal version of our paper), we release a new 3D version of our implementation based on a previous paper called UA-MT: https://github.com/yulequan/UA-MT
 
 [2022 Oct 28th] We released a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
 
