@@ -4,7 +4,7 @@
 [2022 Oct 28th] We released a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
 
 ### Introduction
-This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Operations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' on a public available dataset which was not included in the original MIDL paper. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
+This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' on a public available dataset which was not included in the original MIDL paper. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
 
 ### Hyper-Parameters
 | LR   | Batch | Seed | Width | Consistency | Labels | Steps | 
