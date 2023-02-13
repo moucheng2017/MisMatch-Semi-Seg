@@ -11,7 +11,7 @@ This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morp
 ### Motivation
 Consistency regularisation with input data perturbations in Semi-supervised classification works 
 because of the cluster assumption. However, the cluster assumption does not hold in the data space in 
-segmentation (see this BMVC reference: https://arxiv.org/abs/1906.01916). 
+segmentation (https://arxiv.org/abs/1906.01916). 
 Fortunately, the cluster assumption can be observed in the feature space even for segmentation. 
 Therefore, we propose to use consistency regularisation on feature perturbations and we propose to learn
 feature perturbations end-to-end with network architecture manipulations.
