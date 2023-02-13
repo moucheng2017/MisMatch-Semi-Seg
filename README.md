@@ -22,7 +22,7 @@ feature perturbations end-to-end with network architecture manipulations.
 
 ### Our Contributions and Method:
 1) We provide a new interperation of ERF (effective receptive field: https://arxiv.org/abs/1701.04128) as a tool to incorporate differential morphological operations of features in neural networks;
-2) Based on our insight on the connection between ERF and morphological operations, we build a new encoder-decoder network architecture of segmentation with two decoders:
+2) Based on our insight on the connection between ERF and morphological operations, we build a new encoder-decoder network architecture of semi-supervised segmentation with two decoders:
    1) 1st encoder which enforces inductive bias to make the model do differential dilation operations on the features;
    2) 2nd encoder which encorces another inductive bias to make the model to differential erosion operations on the features.
 3) We then apply normalisation along batch dimension on the two outputs which come from the dilaiton decoder and the erosion decoder respectively before we apply a consistency loss.
