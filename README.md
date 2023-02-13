@@ -3,6 +3,8 @@
 
 [2022 Oct 28th] We released a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
 
+[2022 Feb 13th] We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
+
 ### Introduction
 This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Operations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' on a public available dataset which was not included in the original MIDL paper. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
 
@@ -42,7 +44,14 @@ To train the baseline, use:
 
    cd MisMatchSSL/code
 
-   python train_LA_meanteacher_certainty_unlabel.py --gpu 0 --batch_size 4 --seed 1337 --width 8 --consistency 1.0 --labels 2 --steps 5000
+   python train_LA_meanteacher_certainty_unlabel.py \
+   --gpu 0 \
+   --batch_size 4 \
+   --seed 1337 \
+   --width 8 \
+   --consistency 1.0 \
+   --labels 2 \
+   --steps 5000
 
    ```
 
@@ -53,7 +62,16 @@ To train our proposed model MisMatch, use:
 
    cd MisMatchSSL/code
 
-   python train_LA_meanteacher_certainty_unlabel.py --gpu 0 --batch_size 4 --seed 1337 --width 8 --consistency 1.0 --labels 2 --steps 5000
+   python train_LA_mismatch.py \
+   --gpu 0 \
+   --batch_size 4 \
+   --seed 1337 \
+   --width 8 \
+   --consistency 1.0 \
+   --labels 2 \
+   --dilation 9 \
+   --detach True \
+   --steps 5000
 
    ```
 

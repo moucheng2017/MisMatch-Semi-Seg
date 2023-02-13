@@ -173,7 +173,6 @@ if __name__ == "__main__":
             preds = torch.mean(preds, dim=0)  #(batch, 2, 112,112,80)
             uncertainty = -1.0*torch.sum(preds*torch.log(preds + 1e-6), dim=1, keepdim=True) #(batch, 1, 112,112,80)
 
-
             ## calculate the loss
             loss_seg = F.cross_entropy(outputs[:labeled_bs], label_batch[:labeled_bs])
             outputs_soft = F.softmax(outputs, dim=1)

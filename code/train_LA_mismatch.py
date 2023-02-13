@@ -173,6 +173,8 @@ if __name__ == "__main__":
 
             outputs_p_u = outputs_p[labeled_bs:]
             outputs_n_u = outputs_n[labeled_bs:]
+            outputs_p_u = F.normalize(outputs_p_u, dim=0, p=1)
+            outputs_n_u = F.normalize(outputs_n_u, dim=0, p=1)
 
             if args.detach is True:
                 consistency_dist = 0.5 * torch.nn.MSELoss(reduction='mean')(outputs_p_u, outputs_n_u.detach()) + \
