@@ -1,9 +1,13 @@
 ### News
-[2022 Sep 15th] For easier maintenance (also as requested by the reviewers of the journal version of our paper), we release a new 3D version of our implementation based on a previous paper called UA-MT: https://github.com/yulequan/UA-MT
+_[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as an oral presentation (top 11.6%)!
 
-[2022 Oct 28th] We released a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
+_[2022 July 7th]_ Presenting our paper at MIDL 2022 at ETH Zurich.
 
-[2023 Feb 13th] We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
+_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a previous paper called UA-MT: https://github.com/yulequan/UA-MT
+
+_[2022 Oct 28th]_  We release a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
+
+_[2023 Feb 13th]_  We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
 
 ### Summary
 This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
