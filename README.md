@@ -1,20 +1,20 @@
 ### News
 _[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as an oral presentation (top 11.6%)!
 
-_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a new dataset and we release a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
+_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a new 3D dataset of left atrium and we release a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
 
 _[2023 Feb 13th]_  We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
 
 ### Summary
 This repository is an implementation of the MIDL 2022 Oral paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
 
-### Motivation
-Consistency regularisation with input data perturbations in Semi-supervised classification works 
+### Introduction
+Consistency regularisation with input data perturbations in semi-supervised classification works 
 because of the cluster assumption. However, the cluster assumption does not hold in the data space in 
 segmentation (https://arxiv.org/abs/1906.01916). 
-Fortunately, the cluster assumption can be observed in the feature space even for segmentation. 
+Fortunately, the cluster assumption can be observed in the feature space for segmentation. 
 Therefore, we propose to use consistency regularisation on feature perturbations for semi-supervised segmentation and we propose to learn
-feature perturbations end-to-end with network architecture manipulations.
+feature perturbations end-to-end with network architecture manipulations based on differential morphological operations.
 
 ### Our Contributions and Method:
 1) We provide a new interperation of ERF (effective receptive field: https://arxiv.org/abs/1701.04128) as a theoretical foundation for incorporating differential morphological operations of features in neural networks;
@@ -155,4 +155,5 @@ Please contact 'xumoucheng28@gmail.com'
 
 
 ### Ackwnoledgement
-Massive thanks to my amazing colleagues at UCL and GSK including Yukun Zhou, Jin Chen, Marius de Groot, Fred Wilson, Neil Oxtoby, Danny Alexander and Joe Jacob. 
+Massive thanks to my amazing colleagues at UCL and GSK including Yukun Zhou, Jin Chen, Marius de Groot, Fred Wilson, Neil Oxtoby, Danny Alexander and Joe Jacob.
+This code base is built upon a previous public code base on consistency on data space perturbations: https://github.com/yulequan/UA-MT
