@@ -1,12 +1,12 @@
 ### News
-[2022 Sep 15th] For easier maintenance (also as requested by the reviewers of the journal version of our paper), we release a new version of our implementation based on the data and the code from a previous well-known paper '[Uncertainty-aware Self-ensembling Model for Semi-supervised 3D Left Atrium Segmentation](https://arxiv.org/abs/1907.07034)' which was written by [Lequan Yu](https://yulequan.github.io/)
+[2022 Sep 15th] For easier maintenance (also as requested by the reviewers of the journal version of our paper), we release a new 3D version of our implementation based on a previous paper called UA-MT: https://github.com/yulequan/UA-MT
 
 [2022 Oct 28th] We released a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
 
 [2022 Feb 13th] We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
 
 ### Introduction
-This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Operations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' on a public available dataset which was not included in the original MIDL paper. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
+This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' on a public available dataset which was not included in the original MIDL paper. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
 
 ### Hyper-Parameters
 | LR   | Batch | Seed | Width | Consistency | Labels | Steps | 
@@ -81,7 +81,7 @@ If you find our paper or code useful for your research, please consider citing:
 
     @inproceedings{xu2022midl,
 
-         title={Learning Morphological Operations in Calibrated Semi-Supervised Segmentation},
+         title={Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation},
 
          author={Xu, Moucheng and Zhou, Yukun and Jin, Chen and deGroot, Marius and Wilson Frederick J. and Blumberg, Stefano B. and Alexander, Daniel C. and Oxtoby, Neil P. and Jacob, Joseph},
 
@@ -111,4 +111,4 @@ Please contact 'xumoucheng28@gmail.com'
 
 
 ### Ackwnoledgement
-Massive thanks to my amazing colleagues at UCL and GSK including Yukun Zhou, Jin Chen, Marius de Groot, Fred Wilson, Neil Oxtoby, Danny Alexander and Joe Jacob.
+Massive thanks to my amazing colleagues at UCL and GSK including Yukun Zhou, Jin Chen, Marius de Groot, Fred Wilson, Neil Oxtoby, Danny Alexander and Joe Jacob. 
