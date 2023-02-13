@@ -17,7 +17,7 @@ Consistency regularisation with input data perturbations in Semi-supervised clas
 because of the cluster assumption. However, the cluster assumption does not hold in the data space in 
 segmentation (https://arxiv.org/abs/1906.01916). 
 Fortunately, the cluster assumption can be observed in the feature space even for segmentation. 
-Therefore, we propose to use consistency regularisation on feature perturbations and we propose to learn
+Therefore, we propose to use consistency regularisation on feature perturbations for semi-supervised segmentation and we propose to learn
 feature perturbations end-to-end with network architecture manipulations.
 
 ### Our Contributions and Method:
