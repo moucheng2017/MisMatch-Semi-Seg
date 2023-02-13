@@ -1,7 +1,7 @@
 ### News
 _[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as an oral presentation (top 11.6%)!
 
-_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a previous paper called UA-MT: https://github.com/yulequan/UA-MT and we release a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
+_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a new dataset and we release a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
 
 _[2023 Feb 13th]_  We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
 
@@ -58,7 +58,7 @@ This repository is based on PyTorch 1.4. To use this code, please first clone th
 To train the baseline on LA with default hyperparameters:, use:
 
    ```shell
-   cd MisMatchSSL/code
+   cd MisMatchSSL/code # change directory to your working directory where you downloaded the github repo
 
    python train_LA_meanteacher_certainty_unlabel.py 
    ```
@@ -67,7 +67,7 @@ To train the baseline on LA with default hyperparameters:, use:
 To train our proposed model MisMatch on LA with default hyperparameters, use:
 
    ```shell
-   cd MisMatchSSL/code
+   cd MisMatchSSL/code # change directory to your working directory where you downloaded the github repo
 
    python train_LA_mismatch.py 
    ```
@@ -100,9 +100,9 @@ To train the models on other custom datasets or the lung tumour or the brain tum
 
 ```
 
-To train our model on your own datasets, please use the following template, but do remember to change the data directory, if you set up "witdh" as 8 and cropping size at 96 x 96 x 96 (default), then a 12GB GPU should be enough:
+To train our model on your own datasets, please use the following template, but do remember to change the data directory, if you set up "witdh" as 8 and cropping size at 96 x 96 x 96 (default in the training code, but in config), then a 12GB GPU should be enough:
 ```shell
-cd MisMatchSSL/code
+cd MisMatchSSL/code # change directory to your working directory where you downloaded the github repo
 
 python train_3D_mismatch.py \
 --root_path '/directory/to/your/datasets/Task01_BrainTumour' \
