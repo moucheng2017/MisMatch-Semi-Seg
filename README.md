@@ -1,16 +1,12 @@
 ### News
 _[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as an oral presentation (top 11.6%)!
 
-_[2022 July 7th]_ Presenting our paper at MIDL 2022 at ETH Zurich.
-
-_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a previous paper called UA-MT: https://github.com/yulequan/UA-MT
-
-_[2022 Oct 28th]_  We release a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
+_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a previous paper called UA-MT: https://github.com/yulequan/UA-MT and we release a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
 
 _[2023 Feb 13th]_  We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
 
 ### Summary
-This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
+This repository is an implementation of the MIDL 2022 Oral paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
 
 ### Motivation
 Consistency regularisation with input data perturbations in Semi-supervised classification works 
@@ -21,11 +17,11 @@ Therefore, we propose to use consistency regularisation on feature perturbations
 feature perturbations end-to-end with network architecture manipulations.
 
 ### Our Contributions and Method:
-1) We provide a new interperation of ERF (effective receptive field: https://arxiv.org/abs/1701.04128) as a tool to incorporate differential morphological operations of features in neural networks;
+1) We provide a new interperation of ERF (effective receptive field: https://arxiv.org/abs/1701.04128) as a theoretical foundation for incorporating differential morphological operations of features in neural networks;
 2) Based on our insight on the connection between ERF and morphological operations, we build a new encoder-decoder network architecture of semi-supervised segmentation with two decoders:
-   1) 1st encoder which enforces inductive bias to make the model do differential dilation operations on the features;
-   2) 2nd encoder which encorces another inductive bias to make the model to differential erosion operations on the features.
-3) We then apply normalisation along batch dimension on the two outputs which come from the dilaiton decoder and the erosion decoder respectively before we apply a consistency loss.
+   1) positive attention decoder which enforces inductive bias to do differential dilation operations on the features;
+   2) negative attention decoder which enforces another inductive bias to do differential erosion operations on the features.
+3) We then apply l1 normalisation along batch dimension on the two outputs which come from the dilaiton decoder and the erosion decoder respectively before we apply a consistency loss.
 ![MisMatch Model.](pics/mismatch.png "Plot.")
 See our paper (https://arxiv.org/pdf/2110.12179.pdf) for more details.
 
