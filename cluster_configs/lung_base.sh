@@ -14,5 +14,4 @@
 --base_lr 0.001 \
 --seed 1337 \
 --width 8 \
---consistency 1.0 \
---labels 2
+--consistency 1.0

@@ -3,23 +3,40 @@
 
 [2022 Oct 28th] We released a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
 
-[2022 Feb 13th] We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
+[2023 Feb 13th] We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
 
-### Introduction
-This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' on a public available dataset which was not included in the original MIDL paper. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
+### Summary
+This repository is an implementation of our MIDL 2022 Oral paper '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
 
-### Hyper-Parameters
+### Motivation
+Consistency regularisation with input data perturbations in Semi-supervised classification works 
+because of the cluster assumption. However, the cluster assumption does not hold in the data space in 
+segmentation (see this BMVC reference: https://arxiv.org/abs/1906.01916). 
+Fortunately, the cluster assumption can be observed in the feature space even for segmentation. 
+Therefore, we propose to use consistency regularisation on feature perturbations and we propose to learn
+feature perturbations end-to-end with network architecture manipulations.
+
+### Our Contributions and Method:
+1) We provide a new interperation of ERF (effective receptive field: https://arxiv.org/abs/1701.04128) as a tool to incorporate differential morphological operations of features in neural networks;
+2) Based on our insight on the connection between ERF and morphological operations, we build a new encoder-decoder network architecture of segmentation with two decoders:
+   1) 1st encoder which enforces inductive bias to make the model do differential dilation operations on the features;
+   2) 2nd encoder which encorces another inductive bias to make the model to differential erosion operations on the features.
+3) We then apply normalisation along batch dimension on the two outputs which come from the dilaiton decoder and the erosion decoder respectively before we apply a consistency loss.
+![MisMatch Model.](pics/mismatch.png "Plot.")
+See our paper (https://arxiv.org/pdf/2110.12179.pdf) for more details.
+
+### Hyper-Parameters of experiments on the LA dataset
 | LR   | Batch | Seed | Width | Consistency | Labels | Steps | 
 |------|-------|------|-------|-------------|--------|-------|
 | 0.01 | 4     | 1337 | 8     |       1     |      2 |  5000 |
 
 
-### Results
+### Results on the LA dataset between consistency on feature perturbations (Ours) and consistency on data perturbations (UA-MT)
+
 | Models (5000 steps) | Dice (⬆) | Jaccard (⬆) | Hausdorff Dist. (⬇) | Average Surface Dist. (⬇) |
 |:-------------------:|----------|-------------|---------------------|---------------------------|
 |        UA-MT        | 0.73     | 0.58        | 32                  | 10                        | 
 |   MisMatch (Ours)   | 0.70     | 0.55        | 37                  | 12                        | 
-
 
 ![Results on LA-Heart with different metrics.](pics/la_heart.png "Plot.")
 
@@ -38,42 +55,66 @@ This repository is based on PyTorch 1.4. To use this code, please first clone th
 
    ```
 
-To train the baseline, use:
+To train the baseline on LA with default hyperparameters:, use:
 
    ```shell
-
    cd MisMatchSSL/code
 
-   python train_LA_meanteacher_certainty_unlabel.py \
-   --gpu 0 \
-   --batch_size 4 \
-   --seed 1337 \
-   --width 8 \
-   --consistency 1.0 \
-   --labels 2 \
-   --steps 5000
-
+   python train_LA_meanteacher_certainty_unlabel.py 
    ```
 
 
-To train our proposed model MisMatch, use:
+To train our proposed model MisMatch on LA with default hyperparameters, use:
 
    ```shell
-
    cd MisMatchSSL/code
 
-   python train_LA_mismatch.py \
-   --gpu 0 \
-   --batch_size 4 \
-   --seed 1337 \
-   --width 8 \
-   --consistency 1.0 \
-   --labels 2 \
-   --dilation 9 \
-   --detach True \
-   --steps 5000
-
+   python train_LA_mismatch.py 
    ```
+
+To train the models on other custom datasets or the lung tumour or the brain tumour, you have to first prepare your datasets following:
+```shell
+--labelled/
+    -- imgs/
+        -- some_case_1.nii.gz
+        -- some_case_2.nii.gz
+        -- ...
+    -- lbls/
+        -- some_case_1.nii.gz
+        -- some_case_2.nii.gz
+        -- ...
+--unlabelled/
+    -- imgs/
+        -- some_case_1.nii.gz
+        -- some_case_2.nii.gz
+        -- ...
+--test/
+    --imgs/
+        -- some_case_1.nii.gz
+        -- some_case_2.nii.gz
+        -- ...
+    --lbls/
+        -- some_case_1.nii.gz
+        -- some_case_2.nii.gz
+        -- ...
+
+```
+
+To train our model on your own datasets, please use the following template, but do remember to change the data directory, if you set up "witdh" as 8 and cropping size at 96 x 96 x 96 (default), then a 12GB GPU should be enough:
+```shell
+cd MisMatchSSL/code
+
+python train_3D_mismatch.py \
+--root_path '/directory/to/your/datasets/Task01_BrainTumour' \
+--exp 'MisMatch_brain' \
+--max_iterations 6000 \
+--batch_size 4 \
+--labeled_bs 2 \
+--base_lr 0.001 \
+--seed 1337 \
+--width 8 \
+--consistency 1.0
+```
 
 ### Citation
 
@@ -102,9 +143,12 @@ If you use the LA segmentation data, please also consider citing:
 
          year={2020} }
 
-### Note for data
+
+### Note for the LA data we used:
 The left atrium dataset We provided the processed h5 data in the `data` folder. You can refer the code in `code/dataloaders/la_heart_processing.py` to process your own data.
 
+### Note for the other two 3D datasets we used:
+The lung (Task_06) and brain tumour (Task_01) datasets are downloaded from the http://medicaldecathlon.com/
 
 ### Questions
 Please contact 'xumoucheng28@gmail.com'
