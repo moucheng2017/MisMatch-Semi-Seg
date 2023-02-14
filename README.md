@@ -120,7 +120,7 @@ python train_3D_mismatch.py \
 
 If you find our paper or code useful for your research, please consider citing:
 
-    @inproceedings{xu2022midl,
+    @inproceedings{xmc2022midl,
 
          title={Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation},
 
