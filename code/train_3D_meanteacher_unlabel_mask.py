@@ -28,9 +28,10 @@ from dataloaders.la_heart import ToTensor
 parser = argparse.ArgumentParser()
 parser.add_argument('--root_path', type=str, default='/home/moucheng/projects_data/Task01_BrainTumour', help='Name of Experiment')
 parser.add_argument('--exp', type=str,  default='UAT_baseline', help='model_name')
-parser.add_argument('--max_iterations', type=int,  default=5, help='maximum epoch number to train')
+parser.add_argument('--max_iterations', type=int,  default=100, help='maximum epoch number to train')
 parser.add_argument('--batch_size', type=int, default=4, help='batch_size per gpu') # total batch_size including labelled and unlabelled
 parser.add_argument('--width', type=int,  default=12, help='number of filters')
+parser.add_argument('--in_channel', type=int,  default=4, help='number of input channels, 1 for CT, 4 for BRATS')
 parser.add_argument('--labeled_bs', type=int, default=2, help='labeled_batch_size per gpu')
 parser.add_argument('--base_lr', type=float,  default=0.01, help='maximum epoch number to train')
 parser.add_argument('--deterministic', type=int,  default=1, help='whether use deterministic training')
@@ -88,7 +89,7 @@ if __name__ == "__main__":
 
     def create_model(ema=False):
         # Network definition
-        net = VNet(n_channels=1, n_classes=num_classes, n_filters=args.width, normalization='instancenorm', has_dropout=False)
+        net = VNet(n_channels=args.in_channel, n_classes=num_classes, n_filters=args.width, normalization='instancenorm', has_dropout=False)
         model = net.cuda()
         # if ema:
         #     for param in model.parameters():

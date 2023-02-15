@@ -10,6 +10,7 @@
 --exp 'MisMatch_brain' \
 --max_iterations 6000 \
 --batch_size 4 \
+--in_channel 4 \
 --labeled_bs 2 \
 --base_lr 0.01 \
 --seed 1337 \
