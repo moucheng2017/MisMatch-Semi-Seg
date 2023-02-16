@@ -1,14 +1,14 @@
-### News
-_[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as an oral presentation (top 11.6%)!
+## News
+_[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as an oral presentation (top 11.6%) 
 
 _[2022 Sep 15th]_ We release a new 3D version of our implementation based on a new 3D dataset of left atrium and we release a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
 
 _[2023 Feb 13th]_  We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
 
-### Summary
-This repository is an implementation of the MIDL 2022 Oral paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
+## Summary
+This repository is an implementation of the MIDL2022 paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
 
-### Introduction
+## Introduction
 Consistency regularisation with input data perturbations in semi-supervised classification works 
 because of the cluster assumption. However, the cluster assumption does not hold in the data space in 
 segmentation (https://arxiv.org/abs/1906.01916). 
@@ -16,7 +16,7 @@ Fortunately, the cluster assumption can be observed in the feature space for seg
 Therefore, we propose to use consistency regularisation on feature perturbations for semi-supervised segmentation and we propose to learn
 feature perturbations end-to-end with network architecture manipulations based on differential morphological operations.
 
-### Our Contributions and Method:
+## Our Contributions and Method:
 1) We provide a new interperation of ERF (effective receptive field: https://arxiv.org/abs/1701.04128) as a theoretical foundation for incorporating differential morphological operations of features in neural networks;
 2) Based on our insight on the connection between ERF and morphological operations, we build a new encoder-decoder network architecture of semi-supervised segmentation with two decoders:
    1) positive attention decoder which enforces inductive bias to do differential dilation operations on the features;
@@ -25,14 +25,13 @@ feature perturbations end-to-end with network architecture manipulations based o
 ![MisMatch Model.](pics/mismatch.png "Plot.")
 See our paper (https://arxiv.org/pdf/2110.12179.pdf) for more details.
 
-### Hyper-Parameters of experiments on the LA dataset
+## Hyper-Parameters of experiments on the LA dataset
 | LR   | Batch | Seed | Width | Consistency | Labels | Steps | 
 |------|-------|------|-------|-------------|--------|-------|
 | 0.01 | 4     | 1337 | 8     |       1     |      2 |  5000 |
 
 
-### Results on the LA dataset between consistency on feature perturbations (Ours) and consistency on data perturbations (UA-MT)
-
+## Results on the LA dataset between consistency on feature perturbations (Ours) and consistency on data perturbations (UA-MT)
 | Models (5000 steps) | Dice (⬆) | Jaccard (⬆) | Hausdorff Dist. (⬇) | Average Surface Dist. (⬇) |
 |:-------------------:|----------|-------------|---------------------|---------------------------|
 |        UA-MT        | 0.73     | 0.58        | 32                  | 10                        | 
@@ -41,7 +40,7 @@ See our paper (https://arxiv.org/pdf/2110.12179.pdf) for more details.
 ![Results on LA-Heart with different metrics.](pics/la_heart.png "Plot.")
 
 
-### Installation and Usage
+## Installation and Usage
 
 This repository is based on PyTorch 1.4. To use this code, please first clone the repo and install the anaconda environments via:
 
@@ -85,17 +84,17 @@ To train the models on other custom datasets or the lung tumour or the brain tum
         -- ...
 --unlabelled/
     -- imgs/
-        -- some_case_1.nii.gz
-        -- some_case_2.nii.gz
+        -- some_case_5.nii.gz
+        -- some_case_6.nii.gz
         -- ...
 --test/
     --imgs/
-        -- some_case_1.nii.gz
-        -- some_case_2.nii.gz
+        -- some_case_7.nii.gz
+        -- some_case_8.nii.gz
         -- ...
     --lbls/
-        -- some_case_1.nii.gz
-        -- some_case_2.nii.gz
+        -- some_case_7.nii.gz
+        -- some_case_8.nii.gz
         -- ...
 
 ```
@@ -116,7 +115,7 @@ python train_3D_mismatch.py \
 --consistency 1.0
 ```
 
-### Citation
+## Citation
 
 If you find our paper or code useful for your research, please consider citing:
 
@@ -131,7 +130,8 @@ If you find our paper or code useful for your research, please consider citing:
          year = {2022} }
 
 
-If you use the LA segmentation data, please also consider citing:
+## Note for the LA data we used:
+The left atrium processed h5 dataset is in the `data` folder. You can refer the code in `code/dataloaders/la_heart_processing.py` to process your own data. If you use the LA segmentation data, please also consider citing:
 
       @article{xiong2020global,
 
@@ -144,16 +144,14 @@ If you use the LA segmentation data, please also consider citing:
          year={2020} }
 
 
-### Note for the LA data we used:
-The left atrium dataset We provided the processed h5 data in the `data` folder. You can refer the code in `code/dataloaders/la_heart_processing.py` to process your own data.
-
-### Note for the other two 3D datasets we used:
+## Note for the other two 3D datasets we used:
 The lung (Task_06) and brain tumour (Task_01) datasets are downloaded from the http://medicaldecathlon.com/
 
-### Questions
+
+## Questions
 Please contact 'xumoucheng28@gmail.com'
 
 
-### Ackwnoledgement
-Massive thanks to my amazing colleagues at UCL and GSK including Yukun Zhou, Jin Chen, Marius de Groot, Fred Wilson, Neil Oxtoby, Danny Alexander and Joe Jacob.
+## Ackwnoledgement
+Massive thanks to my amazing colleagues including Yukun Zhou, Jin Chen, Marius de Groot, Fred Wilson, Neil Oxtoby, Danny Alexander and Joe Jacob.
 This code base is built upon a previous public code base on consistency on data space perturbations: https://github.com/yulequan/UA-MT

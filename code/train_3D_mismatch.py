@@ -36,7 +36,7 @@ parser.add_argument('--labeled_bs', type=int, default=2, help='labeled_batch_siz
 parser.add_argument('--base_lr', type=float,  default=0.001, help='maximum epoch number to train')
 parser.add_argument('--deterministic', type=int,  default=1, help='whether use deterministic training')
 parser.add_argument('--seed', type=int,  default=1337, help='random seed')
-parser.add_argument('--gpu', type=str,  default='0', help='GPU to use')
+# parser.add_argument('--gpu', type=str,  default='0', help='GPU to use')
 parser.add_argument('--dilation', type=int,  default=9, help='Dilation rate for positive attention encoder')
 
 parser.add_argument('--consistency_type', type=str,  default="mse", help='consistency_type')
@@ -49,8 +49,8 @@ args = parser.parse_args()
 train_data_path = args.root_path
 snapshot_path = "../model_mismatch/" + str(Path(args.root_path).stem) + '/' + args.exp + '_c' + str(args.consistency) + '_d_' + str(args.detach) + '_di_' + str(args.dilation) + "/"
 
-os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
-batch_size = args.batch_size * len(args.gpu.split(','))
+# os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
+batch_size = args.batch_size
 max_iterations = args.max_iterations
 base_lr = args.base_lr
 labeled_bs = args.labeled_bs
@@ -65,6 +65,7 @@ if args.deterministic:
 
 num_classes = 2
 patch_size = (96, 96, 96)
+
 
 def get_current_consistency_weight(epoch):
     # Consistency ramp-up from https://arxiv.org/abs/1610.02242
