@@ -84,7 +84,7 @@ class MedicalData3D(Dataset):
         image = np.array(image, dtype='float32')
 
         if len(image.shape) == 4:
-            image = np.transpose(image, (3, 0, 1, 2))
+            image = np.transpose(image, (0, 3, 1, 2))
         elif len(image.shape) == 3:
             image = np.transpose(image, (2, 0, 1))
 
@@ -95,7 +95,7 @@ class MedicalData3D(Dataset):
             label = np.array(label, dtype='float32')
 
             if len(label.shape) == 4:
-                label = np.transpose(label, (3, 0, 1, 2))
+                label = np.transpose(label, (0, 3, 1, 2))
             elif len(label.shape) == 3:
                 label = np.transpose(label, (2, 0, 1))
 
