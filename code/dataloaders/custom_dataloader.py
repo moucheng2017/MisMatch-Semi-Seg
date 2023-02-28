@@ -83,16 +83,22 @@ class MedicalData3D(Dataset):
         image = image.get_fdata()
         image = np.array(image, dtype='float32')
 
-        # print(image.shape)
-
-        if len(image.shape) == 4:  # this is for BRATS, we only use the first modality
+        if len(image.shape) == 4:
             image = np.transpose(image, (3, 0, 1, 2))
+        elif len(image.shape) == 3:
+            image = np.transpose(image, (2, 0, 1))
 
         if self.lbls_folder:
             all_labels = sorted(glob(os.path.join(self.lbls_folder, '*.nii.gz*')))
             label = nib.load(all_labels[index])
             label = label.get_fdata()
             label = np.array(label, dtype='float32')
+
+            if len(label.shape) == 4:
+                label = np.transpose(label, (3, 0, 1, 2))
+            elif len(label.shape) == 3:
+                label = np.transpose(label, (2, 0, 1))
+
             label[label > 0] = 1 # put all labels into one binary segmentation
             image_label = {'image': image, 'label': label}
         else:
