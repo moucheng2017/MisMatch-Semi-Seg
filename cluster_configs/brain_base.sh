@@ -7,8 +7,8 @@
 
 ~/miniconda3/envs/pytorch1.4/bin/python train_3D_meanteacher_unlabel_mask.py \
 --root_path '/SAN/medic/PerceptronHead/data/Task01_BrainTumour' \
---exp 'UAT_brain_new' \
---max_iterations 6000 \
+--exp 'UAT_brain_exp1' \
+--max_iterations 4000 \
 --batch_size 4 \
 --in_channel 4 \
 --labeled_bs 2 \
