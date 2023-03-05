@@ -10,6 +10,7 @@
 --exp 'UAT_lung_new_exp1' \
 --max_iterations 4000 \
 --batch_size 4 \
+--in_channel 1 \
 --labeled_bs 2 \
 --base_lr 0.001 \
 --seed 1337 \
