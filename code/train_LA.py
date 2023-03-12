@@ -35,6 +35,8 @@ parser.add_argument('--width', type=int,  default=8, help='number of filters')
 
 parser.add_argument('--labels', type=int,  default=16, help='no of labelled data points')
 
+parser.add_argument('--workers', type=int,  default=4, help='nnumber of workers')
+
 args = parser.parse_args()
 
 train_data_path = args.root_path
@@ -88,7 +90,7 @@ if __name__ == "__main__":
                        ]))
     def worker_init_fn(worker_id):
         random.seed(args.seed+worker_id)
-    trainloader = DataLoader(db_train, batch_size=batch_size, shuffle=True,  num_workers=4, pin_memory=True, worker_init_fn=worker_init_fn)
+    trainloader = DataLoader(db_train, batch_size=batch_size, shuffle=True,  num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn)
 
     net.train()
     optimizer = optim.SGD(net.parameters(), lr=base_lr, momentum=0.9, weight_decay=0.0001)

@@ -49,6 +49,8 @@ parser.add_argument('--threshold', type=float,  default=0.0, help='confidence th
 
 parser.add_argument('--detach', default=True,  help='gradient stopping between the consistency regularisation')
 
+parser.add_argument('--workers', type=int,  default=4, help='nnumber of workers')
+
 args = parser.parse_args()
 
 train_data_path = args.root_path
@@ -125,7 +127,7 @@ if __name__ == "__main__":
     def worker_init_fn(worker_id):
         random.seed(args.seed+worker_id)
 
-    trainloader = DataLoader(db_train, batch_sampler=batch_sampler, num_workers=4, pin_memory=True, worker_init_fn=worker_init_fn)
+    trainloader = DataLoader(db_train, batch_sampler=batch_sampler, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn)
 
     model.train()
     optimizer = optim.SGD(model.parameters(), lr=base_lr, momentum=0.9, weight_decay=0.0001)

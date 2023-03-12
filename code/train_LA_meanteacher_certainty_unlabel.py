@@ -41,6 +41,8 @@ parser.add_argument('--consistency_rampup', type=float,  default=40.0, help='con
 
 parser.add_argument('--labels', type=int,  default=2, help='no of labelled data points')
 
+parser.add_argument('--workers', type=int,  default=4, help='nnumber of workers')
+
 args = parser.parse_args()
 
 train_data_path = args.root_path
@@ -126,7 +128,7 @@ if __name__ == "__main__":
     def worker_init_fn(worker_id):
         random.seed(args.seed+worker_id)
 
-    trainloader = DataLoader(db_train, batch_sampler=batch_sampler, num_workers=4, pin_memory=True, worker_init_fn=worker_init_fn)
+    trainloader = DataLoader(db_train, batch_sampler=batch_sampler, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn)
 
     model.train()
     ema_model.train()
