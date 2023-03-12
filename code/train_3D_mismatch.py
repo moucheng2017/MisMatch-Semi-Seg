@@ -236,7 +236,7 @@ if __name__ == "__main__":
             for param_group in optimizer.param_groups:
                 param_group['lr'] = lr_
 
-        if iter_num % 1000 == 0:
+        if iter_num % 500 == 0:
             save_mode_path = os.path.join(snapshot_path, 'iter_' + str(iter_num) + '.pth')
             torch.save(model.state_dict(), save_mode_path)
             logging.info("save model to {}".format(save_mode_path))
