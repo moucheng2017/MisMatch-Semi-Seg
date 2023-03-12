@@ -44,6 +44,8 @@ parser.add_argument('--consistency', type=float,  default=1.0, help='consistency
 parser.add_argument('--consistency_rampup', type=float,  default=40.0, help='consistency_rampup')
 parser.add_argument('--detach', default=True,  help='gradient stopping between the consistency regularisation')
 
+parser.add_argument('--workers', type=int,  default=4, help='nnumber of workers')
+
 args = parser.parse_args()
 
 train_data_path = args.root_path
@@ -111,9 +113,9 @@ if __name__ == "__main__":
 
     assert args.batch_size > args.labeled_bs
 
-    trainloader_l = DataLoader(db_train_l, batch_size=args.labeled_bs, num_workers=1, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=True, drop_last=False)
-    trainloader_u = DataLoader(db_train_u, batch_size=args.batch_size - args.labeled_bs, num_workers=1, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=True, drop_last=False)
-    testloader = DataLoader(db_test, batch_size=1, num_workers=1, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=False)
+    trainloader_l = DataLoader(db_train_l, batch_size=args.labeled_bs, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=True, drop_last=False)
+    trainloader_u = DataLoader(db_train_u, batch_size=args.batch_size - args.labeled_bs, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=True, drop_last=False)
+    testloader = DataLoader(db_test, batch_size=1, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=False)
     optimizer = optim.SGD(model.parameters(), lr=base_lr, momentum=0.9, weight_decay=0.0001)
 
     if args.consistency_type == 'mse':
@@ -135,7 +137,6 @@ if __name__ == "__main__":
 
     model.train()
     for epoch_num in tqdm(range(max_iterations), ncols=70):
-        # time1 = time.time()
 
         try:
             img_label_l, _ = next(iter_trainloader_l)

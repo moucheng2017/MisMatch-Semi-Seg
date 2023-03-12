@@ -1,8 +1,8 @@
-#$ -l tmem=16G
+#$ -l tmem=40G
 #$ -l gpu=true
 #$ -S /bin/bash
 #$ -j y
-#$ -l h_rt=120:00:00
+#$ -l h_rt=24:00:00
 #$ -wd /SAN/medic/PerceptronHead/codes/MisMatchSSL/code/
 
 ~/miniconda3/envs/pytorch1.4/bin/python train_3D_mismatch.py \
@@ -15,4 +15,5 @@
 --base_lr 0.01 \
 --seed 1337 \
 --width 8 \
+--workers 8 \
 --consistency 1.0
