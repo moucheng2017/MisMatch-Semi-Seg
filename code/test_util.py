@@ -99,6 +99,7 @@ def test_single_case(net, image, stride_xy, stride_z, patch_size, num_classes=1,
         score_map = score_map[:,wl_pad:wl_pad+w,hl_pad:hl_pad+h,dl_pad:dl_pad+d]
     return label_map, score_map
 
+
 def cal_dice(prediction, label, num=2):
     total_dice = np.zeros(num-1)
     for i in range(1, num):
@@ -120,3 +121,74 @@ def calculate_metric_percase(pred, gt):
     asd = metric.binary.asd(pred, gt)
 
     return dice, jc, hd, asd
+
+#
+# def preprocessing_accuracy(label_true, label_pred, n_class):
+#
+#     # print(type(label_pred).__module__)
+#     # print(type(label_true))
+#
+#     if type(label_pred).__module__ == np.__name__:
+#         label_pred = np.asarray(label_pred, dtype='int32')
+#     else:
+#         if n_class == 2:
+#         # thresholding predictions:
+#             output_zeros = torch.zeros_like(label_pred)
+#             output_ones = torch.ones_like(label_pred)
+#             label_pred = torch.where((label_pred > 0.5), output_ones, output_zeros)
+#         label_pred = label_pred.cpu().detach()
+#         label_pred = np.asarray(label_pred, dtype='int32')
+#
+#     if type(label_true).__module__ == np.__name__:
+#         label_true = np.asarray(label_true, dtype='int32')
+#     else:
+#         label_true = label_true.cpu().detach()
+#         label_true = np.asarray(label_true, dtype='int32')
+#
+#     return label_pred, label_true
+#
+# # https://github.com/wkentaro/pytorch-fcn/blob/master/torchfcn/utils.py
+# # https://github.com/ozan-oktay/Attention-Gated-Networks/blob/master/utils/metrics.py
+# # https://github.com/meetshah1995/pytorch-semseg/blob/master/ptsemseg/metrics.py
+#
+#
+# def _fast_hist(label_true, label_pred, n_class):
+#     # label_pred, label_true = preprocessing_accuracy(label_true, label_pred, n_class)
+#     mask = (label_true >= 0) & (label_true < n_class)
+#
+#     # print(np.shape(mask))
+#     # print(np.shape(label_true))
+#     # print(np.shape(label_pred))
+#
+#     hist = np.bincount(
+#         n_class * label_true[mask].astype(int) +
+#         label_pred[mask], minlength=n_class**2).reshape(n_class, n_class)
+#     return hist
+#
+#
+# def segmentation_scores(label_trues, label_preds, n_class):
+#     """Returns accuracy score evaluation result.
+#       - overall accuracy
+#       - mean accuracy
+#       - mean IU
+#       - fwavacc
+#     """
+#     label_preds, label_trues = preprocessing_accuracy(label_trues, label_preds, n_class)
+#     hist = np.zeros((n_class, n_class))
+#     for lt, lp in zip(label_trues, label_preds):
+#         hist += _fast_hist(lt.flatten(), lp.flatten(), n_class)
+#     # acc = np.diag(hist).sum() / hist.sum()
+#     # acc_cls = np.diag(hist) / hist.sum(axis=1)
+#     # acc_cls = np.nanmean(acc_cls)
+#     # iou:
+#     iu = np.diag(hist) / (hist.sum(axis=1) + hist.sum(axis=0) - np.diag(hist) + 1e-10)
+#     mean_iou = np.nanmean(iu)
+#
+#     # freq = hist.sum(axis=1) / hist.sum()
+#     # fwavacc = (freq[freq > 0] * iu[freq > 0]).sum()
+#     # iflat = label_preds.view(-1)
+#     # tflat = label_trues.view(-1)
+#     # intersection = (iflat * tflat).sum()
+#     # union = iflat.sum() + tflat.sum()
+#
+#     return mean_iou

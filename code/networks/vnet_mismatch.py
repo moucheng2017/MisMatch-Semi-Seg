@@ -487,7 +487,7 @@ class VNetMisMatchEfficient(nn.Module):
 
 
 class VNetMisMatch(nn.Module):
-    def __init__(self, n_channels=3, n_classes=2, n_filters=8, normalization='none', dilation=6, has_dropout=False):
+    def __init__(self, n_channels=4, n_classes=2, n_filters=8, normalization='instancenorm', dilation=9, has_dropout=False):
         super(VNetMisMatch, self).__init__()
         self.has_dropout = has_dropout
 
