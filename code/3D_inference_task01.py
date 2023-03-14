@@ -24,22 +24,18 @@ parser = argparse.ArgumentParser('Run inference on BRATS')
 parser.add_argument('--img_source', type=str, help='source image file', default='/home/moucheng/projects_data/Task01_BrainTumour/test/imgs')
 parser.add_argument('--lbl_source', type=str, help='source label file', default='/home/moucheng/projects_data/Task01_BrainTumour/test/lbls')
 
-parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model/Task01_BrainTumour/UAT_brain_exp1_c1.0/last.pth')
-# parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model_mismatch/Task01_BrainTumour/MisMatch_brain_exp1_c1.0_d_True_di_9/iter_4000.pth')
-parser.add_argument('--model_name', type=str, default='ua_mt', help='model name, use mismatch for ours and ua_mt for baseline')
+# parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model/Task01_BrainTumour/UAT_brain_exp1_c1.0/last.pth')
+# parser.add_argument('--model_name', type=str, default='ua_mt', help='model name, use mismatch for ours and ua_mt for baseline')
 
-
-# Baseline
-# parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/PhD/2023_03_01_MIA/cluster_results/Results_Task01_BrainTumour/cluster_brain/Unet3D_l_0.0004_b1_w8_i40000_crop_d64_crop_h64_crop_w64/trained_models/Unet3D_l_0.0004_b1_w8_i40000_crop_d64_crop_h64_crop_w64_best_train.pt')
-# parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/PhD/2023_03_01_MIA/cluster_results/Results_Task01_BrainTumour/cluster_brain/Unet3D_l_0.0004_b1_w8_i40000_crop_d64_crop_h64_crop_w64/trained_models/Unet3D_l_0.0004_b1_w8_i40000_crop_d64_crop_h64_crop_w64step23000.pt')
-
+parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model_mismatch/Task01_BrainTumour/MisMatch_brain_exp1_c1.0_d_True_di_9/iter_4000.pth')
+parser.add_argument('--model_name', type=str, default='mismatch', help='model name, use mismatch for ours and ua_mt for baseline')
 
 # parser.add_argument('--save_path', type=str, help='save path', default='/home/moucheng/PhD/2023_03_01_MIA/results')
-parser.add_argument('--new_dim_d', type=int, help='new dimension d', default=96)
-parser.add_argument('--new_dim_h', type=int, help='new dimension h', default=96)
+parser.add_argument('--new_dim_d', type=int, help='new dimension d', default=128)
+parser.add_argument('--new_dim_h', type=int, help='new dimension h', default=128)
 parser.add_argument('--new_dim_w', type=int, help='new dimension w', default=96)
 # parser.add_argument('--transpose', type=str, help='transpose flag', default=1)
-parser.add_argument('--test_cases', type=int, help='number of testing cases', default=20)
+parser.add_argument('--test_cases', type=int, help='number of testing cases', default=1)
 args = parser.parse_args()
 
 
@@ -137,9 +133,12 @@ if __name__ == '__main__':
 
                     if args.model_name == 'mismatch':
                         y1, y2 = net(seg_)
+                        # y = (y1 + y2) / 2
                         y1 = F.softmax(y1, dim=1)
                         y2 = F.softmax(y2, dim=1)
                         seg_ = (y1 + y2) / 2
+                        # seg_ = y1
+                        # seg_ = F.softmax(y, dim=1)
                     elif args.model_name == 'ua_mt':
                         seg_ = net(seg_)
                         seg_ = F.softmax(seg_, dim=1)
