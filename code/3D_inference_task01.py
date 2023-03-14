@@ -27,7 +27,7 @@ parser.add_argument('--lbl_source', type=str, help='source label file', default=
 # parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model/Task01_BrainTumour/UAT_brain_exp1_c1.0/last.pth')
 # parser.add_argument('--model_name', type=str, default='ua_mt', help='model name, use mismatch for ours and ua_mt for baseline')
 
-parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model_mismatch/Task01_BrainTumour/MisMatch_brain_exp1_c1.0_d_True_di_9/iter_4000.pth')
+parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model_mismatch/Task01_BrainTumour/MisMatch_brain_exp4_c1.0_d_True_di_9/last.pth')
 parser.add_argument('--model_name', type=str, default='mismatch', help='model name, use mismatch for ours and ua_mt for baseline')
 
 # parser.add_argument('--save_path', type=str, help='save path', default='/home/moucheng/PhD/2023_03_01_MIA/results')

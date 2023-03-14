@@ -7,7 +7,7 @@
 
 ~/miniconda3/envs/pytorch1.4/bin/python train_3D_mismatch.py \
 --root_path '/SAN/medic/PerceptronHead/data/Task01_BrainTumour' \
---exp 'MisMatch_brain_exp4' \
+--exp 'MisMatch_brain_exp6' \
 --max_iterations 4000 \
 --batch_size 8 \
 --in_channel 4 \
