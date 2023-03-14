@@ -138,6 +138,7 @@ if __name__ == "__main__":
     logging.info("{} itertations per epoch".format(len(trainloader_l)))
 
     iter_num = 0
+    best_iter = 1.
     max_epoch = max_iterations//len(trainloader_l)+1
     lr_ = base_lr
 
@@ -232,15 +233,19 @@ if __name__ == "__main__":
         #     writer.add_image('unlabel/Groundtruth_label', grid_image, iter_num)
 
         ## change lr
-        if iter_num % 2500 == 0:
-            lr_ = base_lr * 0.1 ** (iter_num // 2500)
-            for param_group in optimizer.param_groups:
-                param_group['lr'] = lr_
+        for param_group in optimizer.param_groups:
+            param_group["lr"] = args.base_lr * ((1 - float(iter_num) / max_iterations) ** 0.99)
 
         if iter_num % 100 == 0:
             save_mode_path = os.path.join(snapshot_path, 'iter_' + str(iter_num) + '.pth')
             torch.save(model.state_dict(), save_mode_path)
             logging.info("save model to {}".format(save_mode_path))
+
+        if loss < best_iter:
+            save_mode_path = os.path.join(snapshot_path, 'best.pth')
+            torch.save(model.state_dict(), save_mode_path)
+            logging.info("save model to {}".format(save_mode_path))
+            best_iter = loss
 
         save_mode_path = os.path.join(snapshot_path, 'last.pth')
         torch.save(model.state_dict(), save_mode_path)

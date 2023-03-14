@@ -27,13 +27,13 @@ from dataloaders.la_heart import ToTensor
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--root_path', type=str, default='/home/moucheng/projects_data/Task01_BrainTumour', help='Name of Experiment')
-parser.add_argument('--exp', type=str,  default='Mismatch_unlabel', help='model_name')
-parser.add_argument('--max_iterations', type=int,  default=6000, help='maximum epoch number to train')
+parser.add_argument('--exp', type=str,  default='Mismatch', help='model_name')
+parser.add_argument('--max_iterations', type=int,  default=50000, help='maximum epoch number to train')
 parser.add_argument('--batch_size', type=int, default=4, help='batch_size per gpu') # total batch_size including labelled and unlabelled
 parser.add_argument('--in_channel', type=int,  default=4, help='number of input channels, 1 for CT, 4 for BRATS')
 parser.add_argument('--width', type=int,  default=8, help='number of filters')
 parser.add_argument('--labeled_bs', type=int, default=2, help='labeled_batch_size per gpu')
-parser.add_argument('--base_lr', type=float,  default=0.001, help='maximum epoch number to train')
+parser.add_argument('--base_lr', type=float,  default=0.01, help='maximum epoch number to train')
 parser.add_argument('--deterministic', type=int,  default=1, help='whether use deterministic training')
 parser.add_argument('--seed', type=int,  default=1337, help='random seed')
 # parser.add_argument('--gpu', type=str,  default='0', help='GPU to use')
@@ -44,7 +44,7 @@ parser.add_argument('--consistency', type=float,  default=1.0, help='consistency
 parser.add_argument('--consistency_rampup', type=float,  default=40.0, help='consistency_rampup')
 parser.add_argument('--detach', default=True,  help='gradient stopping between the consistency regularisation')
 
-parser.add_argument('--workers', type=int,  default=4, help='nnumber of workers')
+parser.add_argument('--workers', type=int,  default=8, help='nnumber of workers')
 
 args = parser.parse_args()
 
@@ -129,6 +129,7 @@ if __name__ == "__main__":
     logging.info("{} itertations per epoch".format(len(trainloader_l)))
 
     iter_num = 0
+    best_iter = 1.0
     max_epoch = max_iterations//len(trainloader_l)+1
     lr_ = base_lr
 
@@ -202,44 +203,25 @@ if __name__ == "__main__":
         logging.info('iteration %d : loss : %f cons_dist: %f, loss_weight: %f' %
                      (iter_num, loss.item(), consistency_dist.item(), consistency_weight))
 
-        # if iter_num % 50 == 0:
-        #     image = volume_batch[0, 0:1, :, :, 20:61:10].permute(3, 0, 1, 2).repeat(1, 3, 1, 1)
-        #     grid_image = make_grid(image, 5, normalize=True)
-        #     writer.add_image('train/Image', grid_image, iter_num)
-        #
-        #     image = torch.max(outputs_soft_avg[0, :, :, :, 20:61:10], 0)[1].permute(2, 0, 1).data.cpu().numpy()
-        #     image = utils.decode_seg_map_sequence(image)
-        #     grid_image = make_grid(image, 5, normalize=False)
-        #     writer.add_image('train/Predicted_label', grid_image, iter_num)
-        #
-        #     image = label_batch[0, :, :, 20:61:10].permute(2, 0, 1)
-        #     grid_image = make_grid(utils.decode_seg_map_sequence(image.data.cpu().numpy()), 5, normalize=False)
-        #     writer.add_image('train/Groundtruth_label', grid_image, iter_num)
-        #
-        #     #####
-        #     image = volume_batch[-1, 0:1, :, :, 20:61:10].permute(3, 0, 1, 2).repeat(1, 3, 1, 1)
-        #     grid_image = make_grid(image, 5, normalize=True)
-        #     writer.add_image('unlabel/Image', grid_image, iter_num)
-        #
-        #     image = torch.max(outputs_soft_avg[-1, :, :, :, 20:61:10], 0)[1].permute(2, 0, 1).data.cpu().numpy()
-        #     image = utils.decode_seg_map_sequence(image)
-        #     grid_image = make_grid(image, 5, normalize=False)
-        #     writer.add_image('unlabel/Predicted_label', grid_image, iter_num)
-        #
-        #     image = label_batch[-1, :, :, 20:61:10].permute(2, 0, 1)
-        #     grid_image = make_grid(utils.decode_seg_map_sequence(image.data.cpu().numpy()), 5, normalize=False)
-        #     writer.add_image('unlabel/Groundtruth_label', grid_image, iter_num)
-
         ## change lr
-        if iter_num % 2500 == 0:
-            lr_ = base_lr * 0.1 ** (iter_num // 2500)
-            for param_group in optimizer.param_groups:
-                param_group['lr'] = lr_
+        # if iter_num % 2500 == 0:
+        #     lr_ = base_lr * 0.1 ** (iter_num // 2500)
+        #     for param_group in optimizer.param_groups:
+        #         param_group['lr'] = lr_
+
+        for param_group in optimizer.param_groups:
+            param_group["lr"] = args.base_lr * ((1 - float(iter_num) / max_iterations) ** 0.99)
 
         if iter_num % 100 == 0:
             save_mode_path = os.path.join(snapshot_path, 'iter_' + str(iter_num) + '.pth')
             torch.save(model.state_dict(), save_mode_path)
             logging.info("save model to {}".format(save_mode_path))
+
+        if loss < best_iter:
+            save_mode_path = os.path.join(snapshot_path, 'best.pth')
+            torch.save(model.state_dict(), save_mode_path)
+            logging.info("save model to {}".format(save_mode_path))
+            best_iter = loss
 
         save_mode_path = os.path.join(snapshot_path, 'last.pth')
         torch.save(model.state_dict(), save_mode_path)
