@@ -20,20 +20,20 @@ from tqdm import tqdm
 
 # This prints out a grid: rows are different images, each row has three columns of image, label, and overlapped image
 
-parser = argparse.ArgumentParser('Run inference on BRATS')
-parser.add_argument('--img_source', type=str, help='source image file', default='/home/moucheng/projects_data/Task01_BrainTumour/test/imgs')
-parser.add_argument('--lbl_source', type=str, help='source label file', default='/home/moucheng/projects_data/Task01_BrainTumour/test/lbls')
+parser = argparse.ArgumentParser('Run inference on Lung tumour')
+parser.add_argument('--img_source', type=str, help='source image file', default='/home/moucheng/projects_data/Task06_Lung/test/imgs')
+parser.add_argument('--lbl_source', type=str, help='source label file', default='/home/moucheng/projects_data/Task06_Lung/test/lbls')
 
-# parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model/Task01_BrainTumour/UAT_brain_exp1_c1.0/last.pth')
-# parser.add_argument('--model_name', type=str, default='ua_mt', help='model name, use mismatch for ours and ua_mt for baseline')
-
-parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model_mismatch/Task01_BrainTumour/MisMatch_brain_exp6_c1.0_d_True_di_9/iter_100.pth')
-parser.add_argument('--model_name', type=str, default='mismatch', help='model name, use mismatch for ours and ua_mt for baseline')
+parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model/Task06_Lung/UAT_lung_new_exp1_c1.0/iter_1000.pth')
+parser.add_argument('--model_name', type=str, default='ua_mt', help='model name, use mismatch for ours and ua_mt for baseline')
+#
+# parser.add_argument('--model_source', type=str, help='model path', default='/home/moucheng/projects/2023_03_14_TMI/new_results_3d_lung_brain/model_mismatch/Task06_Lung/MisMatch_lung_new_exp3_c1.0_d_True_di_9/iter_2000.pth')
+# parser.add_argument('--model_name', type=str, default='mismatch', help='model name, use mismatch for ours and ua_mt for baseline')
 
 # parser.add_argument('--save_path', type=str, help='save path', default='/home/moucheng/PhD/2023_03_01_MIA/results')
 parser.add_argument('--new_dim_d', type=int, help='new dimension d', default=128)
 parser.add_argument('--new_dim_h', type=int, help='new dimension h', default=128)
-parser.add_argument('--new_dim_w', type=int, help='new dimension w', default=96)
+parser.add_argument('--new_dim_w', type=int, help='new dimension w', default=128)
 # parser.add_argument('--transpose', type=str, help='transpose flag', default=1)
 parser.add_argument('--test_cases', type=int, help='number of testing cases', default=1)
 args = parser.parse_args()
@@ -56,11 +56,11 @@ if __name__ == '__main__':
 
     if args.model_name == 'ua_mt':
         # print(torch.load(args.model_source))
-        net = VNet(n_channels=4, n_classes=2, n_filters=8,  normalization='instancenorm', has_dropout=False).cuda()
+        net = VNet(n_channels=1, n_classes=2, n_filters=8,  normalization='instancenorm', has_dropout=False).cuda()
         # save_mode_path = args.model_source
         net.load_state_dict(torch.load(args.model_source))
     elif args.model_name == 'mismatch':
-        net = VNetMisMatch(n_channels=4, n_classes=2, n_filters=8, normalization='instancenorm', has_dropout=False, dilation=9).cuda()
+        net = VNetMisMatch(n_channels=1, n_classes=2, n_filters=8, normalization='instancenorm', has_dropout=False, dilation=9).cuda()
         save_mode_path = args.model_source
         net.load_state_dict(torch.load(args.model_source))
     else:
