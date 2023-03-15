@@ -28,7 +28,7 @@ from dataloaders.la_heart import ToTensor
 parser = argparse.ArgumentParser()
 parser.add_argument('--root_path', type=str, default='/home/moucheng/projects_data/Task01_BrainTumour', help='Name of Experiment')
 parser.add_argument('--exp', type=str,  default='Mismatch', help='model_name')
-parser.add_argument('--max_iterations', type=int,  default=50000, help='maximum epoch number to train')
+parser.add_argument('--max_iterations', type=int,  default=10000, help='maximum epoch number to train')
 parser.add_argument('--batch_size', type=int, default=4, help='batch_size per gpu') # total batch_size including labelled and unlabelled
 parser.add_argument('--in_channel', type=int,  default=4, help='number of input channels, 1 for CT, 4 for BRATS')
 parser.add_argument('--width', type=int,  default=8, help='number of filters')
@@ -41,7 +41,7 @@ parser.add_argument('--dilation', type=int,  default=9, help='Dilation rate for 
 
 parser.add_argument('--consistency_type', type=str,  default="mse", help='consistency_type')
 parser.add_argument('--consistency', type=float,  default=1.0, help='consistency')
-parser.add_argument('--consistency_rampup', type=float,  default=40.0, help='consistency_rampup')
+parser.add_argument('--consistency_rampup', type=float,  default=100., help='consistency_rampup')
 parser.add_argument('--detach', default=True,  help='gradient stopping between the consistency regularisation')
 
 parser.add_argument('--workers', type=int,  default=8, help='nnumber of workers')
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     trainloader_l = DataLoader(db_train_l, batch_size=args.labeled_bs, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=True, drop_last=False)
     trainloader_u = DataLoader(db_train_u, batch_size=args.batch_size - args.labeled_bs, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=True, drop_last=False)
     testloader = DataLoader(db_test, batch_size=1, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=False)
-    optimizer = optim.SGD(model.parameters(), lr=base_lr, momentum=0.9, weight_decay=0.0001)
+    optimizer = optim.AdamW(model.parameters(), lr=base_lr)
 
     if args.consistency_type == 'mse':
         consistency_criterion = losses.softmax_mse_loss
@@ -166,10 +166,6 @@ if __name__ == "__main__":
 
         # calculate the unsupervised loss:
         consistency_weight = get_current_consistency_weight(iter_num // 150)
-        # mask = F.softmax((outputs_p[labeled_bs:] + outputs_n[labeled_bs:]) / 2, dim=1)
-        # mask = (mask > args.threshold) # this might select only half of the digits
-        # outputs_p_u = torch.masked_select(outputs_p[labeled_bs:], mask)
-        # outputs_n_u = torch.masked_select(outputs_n[labeled_bs:], mask)
 
         outputs_p_u = outputs_p[labeled_bs:]
         outputs_n_u = outputs_n[labeled_bs:]
@@ -203,16 +199,10 @@ if __name__ == "__main__":
         logging.info('iteration %d : loss : %f cons_dist: %f, loss_weight: %f' %
                      (iter_num, loss.item(), consistency_dist.item(), consistency_weight))
 
-        ## change lr
-        # if iter_num % 2500 == 0:
-        #     lr_ = base_lr * 0.1 ** (iter_num // 2500)
-        #     for param_group in optimizer.param_groups:
-        #         param_group['lr'] = lr_
-
         for param_group in optimizer.param_groups:
             param_group["lr"] = args.base_lr * ((1 - float(iter_num) / max_iterations) ** 0.99)
 
-        if iter_num % 100 == 0:
+        if iter_num % 500 == 0:
             save_mode_path = os.path.join(snapshot_path, 'iter_' + str(iter_num) + '.pth')
             torch.save(model.state_dict(), save_mode_path)
             logging.info("save model to {}".format(save_mode_path))
@@ -222,10 +212,6 @@ if __name__ == "__main__":
             torch.save(model.state_dict(), save_mode_path)
             logging.info("save model to {}".format(save_mode_path))
             best_iter = loss
-
-        save_mode_path = os.path.join(snapshot_path, 'last.pth')
-        torch.save(model.state_dict(), save_mode_path)
-        logging.info("save model to {}".format(save_mode_path))
 
         if iter_num >= max_iterations:
             break

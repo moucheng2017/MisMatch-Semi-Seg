@@ -28,7 +28,7 @@ from dataloaders.la_heart import ToTensor
 parser = argparse.ArgumentParser()
 parser.add_argument('--root_path', type=str, default='/home/moucheng/projects_data/Task01_BrainTumour', help='Name of Experiment')
 parser.add_argument('--exp', type=str,  default='UAT_baseline', help='model_name')
-parser.add_argument('--max_iterations', type=int,  default=100, help='maximum epoch number to train')
+parser.add_argument('--max_iterations', type=int,  default=10000, help='maximum epoch number to train')
 parser.add_argument('--batch_size', type=int, default=4, help='batch_size per gpu') # total batch_size including labelled and unlabelled
 parser.add_argument('--width', type=int,  default=12, help='number of filters')
 parser.add_argument('--in_channel', type=int,  default=4, help='number of input channels, 1 for CT, 4 for BRATS')
@@ -44,9 +44,9 @@ parser.add_argument('--seed', type=int,  default=1337, help='random seed')
 
 parser.add_argument('--consistency_type', type=str,  default="mse", help='consistency_type')
 parser.add_argument('--consistency', type=float,  default=1.0, help='consistency')
-parser.add_argument('--consistency_rampup', type=float,  default=40.0, help='consistency_rampup')
+parser.add_argument('--consistency_rampup', type=float,  default=100.0, help='consistency_rampup')
 
-parser.add_argument('--workers', type=int,  default=4, help='nnumber of workers')
+parser.add_argument('--workers', type=int,  default=8, help='nnumber of workers')
 
 args = parser.parse_args()
 
@@ -70,6 +70,7 @@ if args.deterministic:
 
 num_classes = 2
 patch_size = (96, 96, 96)
+
 
 def get_current_consistency_weight(epoch):
     # Consistency ramp-up from https://arxiv.org/abs/1610.02242
@@ -125,7 +126,7 @@ if __name__ == "__main__":
     trainloader_u = DataLoader(db_train_u, batch_size=args.batch_size - args.labeled_bs, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=True, drop_last=False)
     testloader = DataLoader(db_test, batch_size=1, num_workers=args.workers, pin_memory=True, worker_init_fn=worker_init_fn, shuffle=False)
 
-    optimizer = optim.SGD(model.parameters(), lr=base_lr, momentum=0.9, weight_decay=0.0001)
+    optimizer = optim.AdamW(model.parameters(), lr=base_lr)
 
     if args.consistency_type == 'mse':
         consistency_criterion = losses.softmax_mse_loss
@@ -204,39 +205,11 @@ if __name__ == "__main__":
         logging.info('iteration %d : loss : %f cons_dist: %f, loss_weight: %f' %
                      (iter_num, loss.item(), consistency_dist.item(), consistency_weight))
 
-        # if iter_num % 50 == 0:
-        #     image = volume_batch[0, 0:1, :, :, 20:61:10].permute(3, 0, 1, 2).repeat(1, 3, 1, 1)
-        #     grid_image = make_grid(image, 5, normalize=True)
-        #     writer.add_image('train/Image', grid_image, iter_num)
-        #
-        #     image = torch.max(outputs_soft_avg[0, :, :, :, 20:61:10], 0)[1].permute(2, 0, 1).data.cpu().numpy()
-        #     image = utils.decode_seg_map_sequence(image)
-        #     grid_image = make_grid(image, 5, normalize=False)
-        #     writer.add_image('train/Predicted_label', grid_image, iter_num)
-        #
-        #     image = label_batch[0, :, :, 20:61:10].permute(2, 0, 1)
-        #     grid_image = make_grid(utils.decode_seg_map_sequence(image.data.cpu().numpy()), 5, normalize=False)
-        #     writer.add_image('train/Groundtruth_label', grid_image, iter_num)
-        #
-        #     #####
-        #     image = volume_batch[-1, 0:1, :, :, 20:61:10].permute(3, 0, 1, 2).repeat(1, 3, 1, 1)
-        #     grid_image = make_grid(image, 5, normalize=True)
-        #     writer.add_image('unlabel/Image', grid_image, iter_num)
-        #
-        #     image = torch.max(outputs_soft_avg[-1, :, :, :, 20:61:10], 0)[1].permute(2, 0, 1).data.cpu().numpy()
-        #     image = utils.decode_seg_map_sequence(image)
-        #     grid_image = make_grid(image, 5, normalize=False)
-        #     writer.add_image('unlabel/Predicted_label', grid_image, iter_num)
-        #
-        #     image = label_batch[-1, :, :, 20:61:10].permute(2, 0, 1)
-        #     grid_image = make_grid(utils.decode_seg_map_sequence(image.data.cpu().numpy()), 5, normalize=False)
-        #     writer.add_image('unlabel/Groundtruth_label', grid_image, iter_num)
-
         ## change lr
         for param_group in optimizer.param_groups:
             param_group["lr"] = args.base_lr * ((1 - float(iter_num) / max_iterations) ** 0.99)
 
-        if iter_num % 100 == 0:
+        if iter_num % 500 == 0:
             save_mode_path = os.path.join(snapshot_path, 'iter_' + str(iter_num) + '.pth')
             torch.save(model.state_dict(), save_mode_path)
             logging.info("save model to {}".format(save_mode_path))
@@ -246,10 +219,6 @@ if __name__ == "__main__":
             torch.save(model.state_dict(), save_mode_path)
             logging.info("save model to {}".format(save_mode_path))
             best_iter = loss
-
-        save_mode_path = os.path.join(snapshot_path, 'last.pth')
-        torch.save(model.state_dict(), save_mode_path)
-        logging.info("save model to {}".format(save_mode_path))
 
         if iter_num >= max_iterations:
             break

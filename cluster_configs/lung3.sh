@@ -1,18 +1,19 @@
-#$ -l tmem=16G
+#$ -l tmem=40G
 #$ -l gpu=true
 #$ -S /bin/bash
 #$ -j y
-#$ -l h_rt=120:00:00
+#$ -l h_rt=10:00:00
 #$ -wd /SAN/medic/PerceptronHead/codes/MisMatchSSL/code/
 
-~/miniconda3/envs/pytorch1.4/bin/python train_3D_meanteacher_unlabel_mask.py \
+~/miniconda3/envs/pytorch1.4/bin/python train_3D_mismatch.py \
 --root_path '/SAN/medic/PerceptronHead/data/Task06_Lung' \
---exp 'UAT_lung_new_exp2' \
---max_iterations 4000 \
+--exp 'lung_ours1' \
+--max_iterations 10000 \
 --batch_size 4 \
 --in_channel 1 \
 --labeled_bs 2 \
---base_lr 0.01 \
+--base_lr 0.001 \
 --seed 1337 \
 --width 8 \
+--workers 8 \
 --consistency 1.0
