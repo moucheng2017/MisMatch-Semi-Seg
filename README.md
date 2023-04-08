@@ -34,8 +34,8 @@ See our paper (https://arxiv.org/pdf/2110.12179.pdf) for more details.
 ## Results on the LA dataset between consistency on feature perturbations (Ours) and consistency on data perturbations (UA-MT)
 | Models (5000 steps) | Dice (⬆) | Jaccard (⬆) | Hausdorff Dist. (⬇) | Average Surface Dist. (⬇) |
 |:-------------------:|----------|-------------|---------------------|---------------------------|
-|        UA-MT        | 0.73     | 0.58        | 32                  | 10                        | 
-|   MisMatch (Ours)   | 0.70     | 0.55        | 37                  | 12                        | 
+|  MisMatch (Ours)    | 0.73     | 0.58        | 32                  | 10                        | 
+|   UA-MT             | 0.70     | 0.55        | 37                  | 12                        | 
 
 ![Results on LA-Heart with different metrics.](pics/la_heart.png "Plot.")
 
