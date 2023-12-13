@@ -4,7 +4,10 @@ _[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as 
 _[2023 Sep 15th]_ We release a new 3D version of our implementation based on a new 3D dataset of left atrium and the extended version is published as a journal paper at IEEE TMI (impact factor 11): https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10121397
 
 ## Summary
-This repository is an implementation of the MIDL2022 paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
+This repository is an implementation of the MIDL2022 paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' and the IEEE TMI paper '[MisMatch: Calibrated Segmentation via
+Consistency on Differential Morphological
+Feature Perturbations With
+Limited Labels](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10121397)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
 
 ## Introduction
 Consistency regularisation with input data perturbations in semi-supervised classification works 
