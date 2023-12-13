@@ -1,7 +1,7 @@
 ## News
 _[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as an oral presentation (top 11.6%) 
 
-_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a new 3D dataset of left atrium and we release a new extended version of MisMatch on arxiv: https://arxiv.org/pdf/2110.12179.pdf
+_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a new 3D dataset of left atrium and the extended version is published as a journal paper at IEEE TMI (impact factor 11): https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10121397
 
 _[2023 Feb 13th]_  We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
 
