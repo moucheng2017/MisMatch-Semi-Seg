@@ -1,9 +1,7 @@
 ## News
 _[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as an oral presentation (top 11.6%) 
 
-_[2022 Sep 15th]_ We release a new 3D version of our implementation based on a new 3D dataset of left atrium and the extended version is published as a journal paper at IEEE TMI (impact factor 11): https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10121397
-
-_[2023 Feb 13th]_  We are adding new experiments on 3D Brain Tumour segmentation and 3D lung tumour segmentation, will release the updates soon.
+_[2023 Sep 15th]_ We release a new 3D version of our implementation based on a new 3D dataset of left atrium and the extended version is published as a journal paper at IEEE TMI (impact factor 11): https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10121397
 
 ## Summary
 This repository is an implementation of the MIDL2022 paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
