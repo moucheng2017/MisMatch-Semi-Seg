@@ -1,21 +1,20 @@
-## News
-_[2022 May 30th]_ Happy to announce that our paper got accepted at MIDL 2022 as an oral presentation (top 11.6%) 
-
-_[2023 Sep 15th]_ We release a new 3D version of our implementation based on a new 3D dataset of left atrium and the extended version is published as a journal paper at IEEE TMI (impact factor 11): https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10121397
-
 ## Summary
-This repository is an implementation of the MIDL2022 paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' and the IEEE TMI paper '[MisMatch: Calibrated Segmentation via
+This repository contains an implementation of the MIDL2022 paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' and the IEEE TMI paper '[MisMatch: Calibrated Segmentation via
 Consistency on Differential Morphological
 Feature Perturbations With
-Limited Labels](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10121397)'. This code base was written and maintained by [Moucheng Xu](https://moucheng2017.github.io/)
+Limited Labels](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10121397)'. This code base was written by [Moucheng Xu](https://moucheng2017.github.io/)
 
 ## Introduction
 Consistency regularisation with input data perturbations in semi-supervised classification works 
 because of the cluster assumption. However, the cluster assumption does not hold in the data space in 
 segmentation (https://arxiv.org/abs/1906.01916). 
 Fortunately, the cluster assumption can be observed in the feature space for segmentation. 
-Therefore, we propose to use consistency regularisation on feature perturbations for semi-supervised segmentation and we propose to learn
-feature perturbations end-to-end with network architecture manipulations based on differential morphological operations.
+We propose MisMatch, a novel consistency-driven semi-supervised segmentation framework which produces predictions that are invariant to learnt feature perturbations. 
+MisMatch consists of an encoder and a two-head decoders. 
+One decoder learns positive attention to the foreground regions of interest (RoI) on unlabelled images thereby generating dilated features. 
+The other decoder learns negative attention to the foreground on the same unlabelled images thereby generating eroded features. We then apply a consistency regularisation on the paired predictions. 
+MisMatch outperforms state-of-the-art semi-supervised methods on a CT-based pulmonary vessel segmentation task and a MRI-based brain tumour segmentation task. 
+In addition, we show that the effectiveness of MisMatch comes from better model calibration than its supervised learning counterpart.
 
 ## Our Contributions and Method:
 1) We provide a new interperation of ERF (effective receptive field: https://arxiv.org/abs/1701.04128) as a theoretical foundation for incorporating differential morphological operations of features in neural networks;
@@ -130,6 +129,16 @@ If you find our paper or code useful for your research, please consider citing:
 
          year = {2022} }
 
+    @ARTICLE{mismatch_tmi,
+
+         title={MisMatch: Calibrated Segmentation via Consistency on Differential Morphological Feature Perturbations With Limited Labels},
+
+         author={Xu, Moucheng and Zhou, Yukun and Jin, Chen and deGroot, Marius and Wilson Frederick J. and Blumberg, Stefano B. and Alexander, Daniel C. and Oxtoby, Neil P. and Jacob, Joseph},
+
+         booktitle = {IEEE Transactions on Medical Imaging},
+
+         year = {2023} }
+
 
 ## Note for the LA data we used:
 The left atrium processed h5 dataset is in the `data` folder. You can refer the code in `code/dataloaders/la_heart_processing.py` to process your own data. If you use the LA segmentation data, please also consider citing:
@@ -150,7 +159,7 @@ The lung (Task_06) and brain tumour (Task_01) datasets are downloaded from the h
 
 
 ## Questions
-Please contact 'xumoucheng28@gmail.com'
+Please contact 'xumoucheng28@gmail.com' for any questions. 
 
 
 ## Ackwnoledgement
