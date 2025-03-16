@@ -1,10 +1,10 @@
-## Summary
+# Summary
 This repository contains an implementation of the MIDL2022 paper: '[Learning Morphological Feature Perturbations for Calibrated Semi-Supervised Segmentation](https://openreview.net/pdf?id=OL6tAasXCmi)' and the IEEE TMI paper '[MisMatch: Calibrated Segmentation via
 Consistency on Differential Morphological
 Feature Perturbations With
 Limited Labels](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10121397)'. This code base was written by [Moucheng Xu](https://moucheng2017.github.io/)
 
-## Introduction
+# Introduction
 Consistency regularisation with input data perturbations in semi-supervised classification works 
 because of the cluster assumption. However, the cluster assumption does not hold in the data space in 
 segmentation (https://arxiv.org/abs/1906.01916). 
@@ -16,7 +16,7 @@ The other decoder learns negative attention to the foreground on the same unlabe
 MisMatch outperforms state-of-the-art semi-supervised methods on a CT-based pulmonary vessel segmentation task and a MRI-based brain tumour segmentation task. 
 In addition, we show that the effectiveness of MisMatch comes from better model calibration than its supervised learning counterpart.
 
-## Our Contributions and Method:
+# Our Contributions and Method:
 1) We provide a new interperation of ERF (effective receptive field: https://arxiv.org/abs/1701.04128) as a theoretical foundation for incorporating differential morphological operations of features in neural networks;
 2) Based on our insight on the connection between ERF and morphological operations, we build a new encoder-decoder network architecture of semi-supervised segmentation with two decoders:
    1) positive attention decoder which enforces inductive bias to do differential dilation operations on the features;
@@ -25,13 +25,13 @@ In addition, we show that the effectiveness of MisMatch comes from better model 
 ![MisMatch Model.](pics/mismatch.png "Plot.")
 See our paper (https://arxiv.org/pdf/2110.12179.pdf) for more details.
 
-## Hyper-Parameters of experiments on the LA dataset
+# Hyper-Parameters of experiments on the LA dataset
 | LR   | Batch | Seed | Width | Consistency | Labels | Steps | 
 |------|-------|------|-------|-------------|--------|-------|
 | 0.01 | 4     | 1337 | 8     |       1     |      2 |  5000 |
 
 
-## Results on the LA dataset between consistency on feature perturbations (Ours) and consistency on data perturbations (UA-MT)
+# Results on the LA dataset between consistency on feature perturbations (Ours) and consistency on data perturbations (UA-MT)
 | Models (5000 steps) | Dice (⬆) | Jaccard (⬆) | Hausdorff Dist. (⬇) | Average Surface Dist. (⬇) |
 |:-------------------:|----------|-------------|---------------------|---------------------------|
 |  MisMatch (Ours)    | 0.73     | 0.58        | 32                  | 10                        | 
@@ -40,7 +40,7 @@ See our paper (https://arxiv.org/pdf/2110.12179.pdf) for more details.
 ![Results on LA-Heart with different metrics.](pics/la_heart.png "Plot.")
 
 
-## Installation and Usage
+# Installation and Usage
 
 This repository is based on PyTorch 1.4. To use this code, please first clone the repo and install the anaconda environments via:
 
@@ -115,7 +115,7 @@ python train_3D_mismatch.py \
 --consistency 1.0
 ```
 
-## Citation
+# Citation
 
 If you find our paper or code useful for your research, please consider citing:
 
@@ -140,7 +140,7 @@ If you find our paper or code useful for your research, please consider citing:
          year = {2023} }
 
 
-## Note for the LA data we used:
+# Note for the LA data we used:
 The left atrium processed h5 dataset is in the `data` folder. You can refer the code in `code/dataloaders/la_heart_processing.py` to process your own data. If you use the LA segmentation data, please also consider citing:
 
       @article{xiong2020global,
@@ -154,14 +154,14 @@ The left atrium processed h5 dataset is in the `data` folder. You can refer the 
          year={2020} }
 
 
-## Note for the other two 3D datasets we used:
+# Note for the other two 3D datasets we used:
 The lung (Task_06) and brain tumour (Task_01) datasets are downloaded from the http://medicaldecathlon.com/
 
 
-## Questions
+# Questions
 Please contact 'xumoucheng28@gmail.com' for any questions. 
 
 
-## Ackwnoledgement
+# Ackwnoledgement
 Massive thanks to my amazing colleagues including Yukun Zhou, Jin Chen, Marius de Groot, Fred Wilson, Neil Oxtoby, Danny Alexander and Joe Jacob.
 This code base is built upon a previous public code base on consistency on data space perturbations: https://github.com/yulequan/UA-MT
